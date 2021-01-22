@@ -1,5 +1,4 @@
 #!/bin/bash
-
 export OS
 export VER
 
