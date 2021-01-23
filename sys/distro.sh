@@ -31,3 +31,15 @@ else
     OS=$(uname -s)
     VER=$(uname -r)
 fi
+
+# Check OS and exit if not supported
+case "$OS" in
+    Ubuntu | Debian)
+        echo "#> Running a DevOps tool on $OS $VER"
+        ;;
+    *)
+        echo "#> OS $OS is not supported!"
+        echo "#> Exit"
+        exit 1
+        ;;
+esac
