@@ -2,7 +2,7 @@
 source sys/common.sh
 source sys/distro.sh
 
-read -p "#> Configure Docker bash completion for logged user [y/n]:  " -n 1 -r
+read -p "#> Configure Docker bash completion for logged user [y/n]: " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
@@ -12,7 +12,7 @@ echo "#> Install packages"
 sudo apt-get install -y bash-completion
 
 # Download Docker completion definition
-curl https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker -o /etc/bash_completion.d/docker.sh
+sudo curl https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker -o /etc/bash_completion.d/docker.sh
 
 # Include in .bashrc
 echo "#> Enable bash completion in .bashrc"

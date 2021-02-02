@@ -33,12 +33,12 @@ else
 fi
 
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
-read -p '#> Add username to Docker group [system username or empty to skip]:' username
+read -p "#> Add user to Docker group [system username or empty to skip]: " username
 
 if [ ! -z $username ]; then
-    echo "#> Set docker group to $username"
+    echo "#> Set $username to the docker group"
     sudo usermod -aG docker $username
 fi
 
