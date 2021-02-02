@@ -11,6 +11,10 @@ fi
 echo "#> Install packages"
 sudo apt-get install -y bash-completion
 
+# Download Docker completion definition
+curl https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker -o /etc/bash_completion.d/docker.sh
+
+# Include in .bashrc
 echo "#> Enable bash completion in .bashrc"
 cat << EOF >> ~/.bashrc
 if ! shopt -oq posix; then
@@ -23,3 +27,4 @@ fi
 EOF
 
 source ~/.bashrc
+source sys/end.sh

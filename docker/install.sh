@@ -3,6 +3,7 @@ source sys/common.sh
 source sys/distro.sh
 
 # Packages
+echo "#> Manage Docker packages"
 sudo apt-get remove docker docker-engine docker.io containerd runc
 sudo apt-get update
 sudo apt-get install -y \
@@ -25,21 +26,20 @@ elif [ "$OS" == "Debian" ]; then
             "deb [arch=amd64] https://download.docker.com/linux/debian \
             $(lsb_release -cs) \
             stable"
-# Everything elese...
+# Everything else...
 else
-    echo "OS $OS not supported!"
+    echo "#> OS $OS not supported!"
     exit 1
 fi
 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-read -p 'Add username to Docker group [system username or empty to skip]:' username
+read -p '#> Add username to Docker group [system username or empty to skip]:' username
 
 if [ ! -z $username ]; then
-    echo "---"
-    echo "Set docker group to $username"
+    echo "#> Set docker group to $username"
     sudo usermod -aG docker $username
 fi
 
-echo "- Completed"
+source sys/end.sh
