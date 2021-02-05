@@ -1,7 +1,32 @@
 #!/bin/bash
+set -e
 export OS
 export VER
 
+#----------# FUNCTIONS #----------#
+message (){
+    echo "(!)devops-tools> $1"
+    sleep 1
+}
+
+ask (){
+    read -p "(?)devops-tools> $1 " input_value
+    echo $input_value
+}
+
+ask_yn (){
+    while true; do
+        read -p "(?)devops-tools> $1 [y/n]: " -n 1 -r yn 
+        echo
+        case $yn in
+            [Yy]* ) break;;
+            [Nn]* ) message "Exit."; exit;;
+            * ) message "Please answer y or n";;
+        esac
+    done
+}
+
+#----------# DISTRO #----------#
 if [ -f /etc/os-release ]; then
     # freedesktop.org and systemd
     . /etc/os-release
@@ -35,11 +60,23 @@ fi
 # Check OS and exit if not supported
 case "$OS" in
     Ubuntu | Debian)
-        echo "#> Running a DevOps tool on $OS $VER"
+        message "DevOps Tools v0.1 on $OS $VER"
         ;;
     *)
-        echo "#> OS $OS is not supported!"
-        echo "#> Exit"
+        message "OS $OS is not supported."
         exit 1
         ;;
 esac
+
+if [ `whoami` == "root" ]; then
+    message "You must not be root to run commands, switch to regular sudoers user."
+    exit
+fi
+
+#----------# CONFIRM RUNNING #----------#
+CMD=$0
+IFS='/'     # space is set as delimiter
+read -ra CMD_SPLIT <<< "$CMD"
+CMD_SERVICE=${CMD_SPLIT[0]}
+CMD_ACTION=${CMD_SPLIT[1]}
+ask_yn "Confirm to ${CMD_ACTION%.sh} $CMD_SERVICE"

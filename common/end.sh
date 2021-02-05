@@ -1,0 +1,2 @@
+#!/bin/bash
+message "Done."

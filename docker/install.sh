@@ -1,6 +1,6 @@
 #!/bin/bash
-source sys/common.sh
-source sys/distro.sh
+source sys/start.sh
+#----------# START SCRIPT #----------#
 
 # Packages
 echo "#> Manage Docker packages"
@@ -42,4 +42,5 @@ if [ ! -z $username ]; then
     sudo usermod -aG docker $username
 fi
 
+#----------# END SCRIPT #----------#
 source sys/end.sh

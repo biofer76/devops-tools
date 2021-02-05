@@ -1,6 +1,6 @@
 #!/bin/bash
-source sys/common.sh
-source sys/distro.sh
+source common/start.sh
+#----------# START SCRIPT #----------#
 
 read -p "#> Configure Docker bash completion for logged user [y/n]: " -n 1 -r
 echo
@@ -27,4 +27,6 @@ fi
 EOF
 
 source ~/.bashrc
-source sys/end.sh
+
+#----------# END SCRIPT #----------#
+source common/end.sh
