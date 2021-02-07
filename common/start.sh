@@ -8,12 +8,10 @@ message (){
     echo "(!)devops-tools> $1"
     sleep 1
 }
-
 ask (){
     read -p "(?)devops-tools> $1 " input_value
     echo $input_value
 }
-
 ask_yn (){
     while true; do
         read -p "(?)devops-tools> $1 [y/n]: " -n 1 -r yn 
@@ -25,7 +23,6 @@ ask_yn (){
         esac
     done
 }
-
 #----------# DISTRO #----------#
 if [ -f /etc/os-release ]; then
     # freedesktop.org and systemd
@@ -56,7 +53,6 @@ else
     OS=$(uname -s)
     VER=$(uname -r)
 fi
-
 # Check OS and exit if not supported
 case "$OS" in
     Ubuntu | Debian)
@@ -67,16 +63,15 @@ case "$OS" in
         exit 1
         ;;
 esac
-
+# Check if user is root
 if [ `whoami` == "root" ]; then
     message "You must not be root to run commands, switch to regular sudoers user."
     exit
 fi
-
 #----------# CONFIRM RUNNING #----------#
 CMD=$0
-IFS='/'     # space is set as delimiter
+IFS='/'
 read -ra CMD_SPLIT <<< "$CMD"
 CMD_SERVICE=${CMD_SPLIT[0]}
 CMD_ACTION=${CMD_SPLIT[1]}
-ask_yn "Confirm to ${CMD_ACTION%.sh} $CMD_SERVICE"
+ask_yn "Confirmation before starting: ${CMD_ACTION%.sh} for $CMD_SERVICE"

@@ -2,20 +2,12 @@
 source common/start.sh
 #----------# START SCRIPT #----------#
 
-read -p "#> Configure Docker bash completion for logged user [y/n]: " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    exit 1
-fi
-echo "#> Install packages"
+# Install packages
 sudo apt-get install -y bash-completion
-
 # Download Docker completion definition
 sudo curl https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker -o /etc/bash_completion.d/docker.sh
-
 # Include in .bashrc
-echo "#> Enable bash completion in .bashrc"
+message "Enable bash completion in .bashrc"
 cat << EOF >> ~/.bashrc
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -25,7 +17,7 @@ if ! shopt -oq posix; then
     fi
 fi
 EOF
-
+# Reload .bashrc
 source ~/.bashrc
 
 #----------# END SCRIPT #----------#

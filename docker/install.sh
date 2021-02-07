@@ -1,10 +1,10 @@
 #!/bin/bash
-source sys/start.sh
+source common/start.sh
 #----------# START SCRIPT #----------#
 
 # Packages
-echo "#> Manage Docker packages"
-sudo apt-get remove docker docker-engine docker.io containerd runc
+message "Remove old Docker packages"
+sudo apt-get remove docker docker-engine docker.io containerd runc || true
 sudo apt-get update
 sudo apt-get install -y \
         apt-transport-https \
@@ -13,7 +13,6 @@ sudo apt-get install -y \
         gnupg-agent \
         software-properties-common
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
 # Ubuntu
 if [ "$OS" == "Ubuntu" ]; then
     sudo add-apt-repository \
@@ -28,19 +27,19 @@ elif [ "$OS" == "Debian" ]; then
             stable"
 # Everything else...
 else
-    echo "#> OS $OS not supported!"
+    message "OS $OS not supported!"
     exit 1
 fi
-
+# Install packages
 sudo apt-get update
+message "Install Docker packages"
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-
-read -p "#> Add user to Docker group [system username or empty to skip]: " username
-
+# Add user to Docker group 
+username=$(ask "Add user to Docker group [system username or empty to skip]")
 if [ ! -z $username ]; then
-    echo "#> Set $username to the docker group"
+    message "Set $username to the docker group"
     sudo usermod -aG docker $username
 fi
 
 #----------# END SCRIPT #----------#
-source sys/end.sh
+source common/end.sh
